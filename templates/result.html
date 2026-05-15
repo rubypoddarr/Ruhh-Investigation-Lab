@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Report — Ruhh Investigation Lab</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-inner">
+        <a href="{{ url_for('index') }}" class="nav-brand">
+            <span class="brand-icon">&#128269;</span>
+            Ruhh<span class="accent">Lab</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('upload') }}">Analyze</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="page-wrap">
+    <div class="page-head">
+        <span class="badge badge-green">&#10003; Investigation Complete</span>
+        <h1>Analysis <span class="accent">Report</span></h1>
+        <p>YOLOv3 object detection and scene analysis results.</p>
+    </div>
+
+    <!-- Summary bar -->
+    <div class="summary-bar">
+        <div class="summary-item">
+            <span class="summary-label">Objects Detected</span>
+            <span class="summary-val accent">{{ detected_objects | length }}</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+            <span class="summary-label">Scene Type</span>
+            <span class="summary-val">{{ scene }}</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+            <span class="summary-label">Observations</span>
+            <span class="summary-val accent">{{ observations | length }}</span>
+        </div>
+    </div>
+
+    <div class="result-grid">
+
+        <!-- Processed image -->
+        <div class="result-panel img-panel">
+            <div class="panel-title">
+                <span class="panel-icon">&#128247;</span> Processed Image
+            </div>
+            <div class="img-wrap">
+                {% if result_img %}
+                    <img src="{{ url_for('static', filename='results/' + result_img) }}"
+                         alt="Annotated result">
+                {% else %}
+                    <p class="empty">No result image found.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right column -->
+        <div class="result-right">
+
+            <!-- Detected objects -->
+            <div class="result-panel">
+                <div class="panel-title">
+                    <span class="panel-icon">&#127919;</span> Detected Objects
+                    <span class="count-pill">{{ detected_objects | length }}</span>
+                </div>
+                <div class="panel-body">
+                    {% if detected_objects %}
+                        <div class="obj-tags">
+                            {% set seen = namespace(items=[]) %}
+                            {% for obj in detected_objects %}
+                                {% if obj not in seen.items %}
+                                    {% set seen.items = seen.items + [obj] %}
+                                    {% set cnt = detected_objects | select("equalto", obj) | list | length %}
+                                    <span class="obj-tag">
+                                        {{ obj }}{% if cnt > 1 %}<span class="obj-cnt">×{{ cnt }}</span>{% endif %}
+                                    </span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="empty-hint">
+                            No objects detected. Make sure <code>yolov3-tiny.weights</code>
+                            exists in <code>models/</code> — run <code>python download_weights.py</code>.
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Scene -->
+            <div class="result-panel">
+                <div class="panel-title">
+                    <span class="panel-icon">&#128205;</span> Scene Classification
+                </div>
+                <div class="panel-body">
+                    <div class="scene-pill">{{ scene }}</div>
+                </div>
+            </div>
+
+            <!-- Observations -->
+            <div class="result-panel">
+                <div class="panel-title">
+                    <span class="panel-icon">&#128196;</span> Investigation Observations
+                </div>
+                <div class="panel-body">
+                    {% if observations %}
+                        <ul class="obs-list">
+                            {% for o in observations %}
+                                <li><span class="obs-dot"></span>{{ o }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="empty-hint">No observations generated.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-actions">
+        <a href="{{ url_for('upload') }}" class="btn btn-primary">&#8635;&nbsp; Analyze Another Image</a>
+        <a href="{{ url_for('index') }}" class="btn btn-outline">&#8962;&nbsp; Home</a>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>&#169; 2024 &nbsp;<strong>Ruhh Investigation Lab</strong> &nbsp;&mdash;&nbsp; Developed by <span class="accent">Ruby Poddar</span></p>
+</footer>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

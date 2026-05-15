@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image — Ruhh Investigation Lab</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-inner">
+        <a href="{{ url_for('index') }}" class="nav-brand">
+            <span class="brand-icon">&#128269;</span>
+            Ruhh<span class="accent">Lab</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('upload') }}" class="active">Analyze</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="page-wrap">
+    <div class="page-head">
+        <span class="badge">Image Analysis</span>
+        <h1>Upload for <span class="accent">Analysis</span></h1>
+        <p>Submit any image. YOLOv3 will detect every object and produce a full investigation report automatically.</p>
+    </div>
+
+    <div class="upload-box">
+
+        {% if error %}
+        <div class="alert-error">
+            <span>&#9888;</span> {{ error }}
+        </div>
+        {% endif %}
+
+        <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+
+            <div class="dropzone" id="dropZone">
+                <div class="dz-idle" id="dzIdle">
+                    <div class="dz-upload-icon">&#128228;</div>
+                    <p class="dz-title">Drag &amp; drop your image here</p>
+                    <p class="dz-sub">or <span class="accent">click to browse</span></p>
+                    <p class="dz-formats">PNG &nbsp;·&nbsp; JPG &nbsp;·&nbsp; JPEG &nbsp;·&nbsp; BMP &nbsp;·&nbsp; GIF &nbsp;&mdash;&nbsp; Max 16 MB</p>
+                </div>
+                <div class="dz-preview" id="dzPreview">
+                    <img id="previewImg" src="#" alt="Preview">
+                    <span id="previewName" class="dz-fname"></span>
+                </div>
+                <input type="file" name="image" id="imageInput" accept="image/*" required>
+            </div>
+
+            <div class="upload-actions">
+                <button type="submit" class="btn btn-primary btn-lg" id="analyzeBtn">
+                    <span id="btnLabel">&#128269;&nbsp; Run Analysis</span>
+                    <span id="btnSpinner" style="display:none">&#9203;&nbsp; Analyzing…</span>
+                </button>
+                <a href="{{ url_for('index') }}" class="btn btn-outline">Cancel</a>
+            </div>
+        </form>
+
+        <div class="note-box">
+            <span class="note-icon">&#8505;</span>
+            <span>
+                Detection runs automatically on upload. If no bounding boxes appear, run
+                <code>python download_weights.py</code> inside the project folder to fetch the model weights.
+            </span>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>&#169; 2024 &nbsp;<strong>Ruhh Investigation Lab</strong> &nbsp;&mdash;&nbsp; Developed by <span class="accent">Ruby Poddar</span></p>
+</footer>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

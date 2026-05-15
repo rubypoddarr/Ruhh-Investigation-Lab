@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — Ruhh Investigation Lab</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-inner">
+        <a href="{{ url_for('index') }}" class="nav-brand">
+            <span class="brand-icon">&#128269;</span>
+            Ruhh<span class="accent">Lab</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('upload') }}">Analyze</a></li>
+            <li><a href="{{ url_for('about') }}" class="active">About</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="page-wrap">
+    <div class="page-head">
+        <span class="badge">About</span>
+        <h1>Meet the <span class="accent">Developer</span></h1>
+        <p>BCA Final Year Computer Vision project — built entirely with open-source tools.</p>
+    </div>
+
+    <!-- Developer hero card -->
+    <div class="dev-hero">
+        <div class="dev-photo-wrap">
+            <img src="{{ url_for('static', filename='ruby_poddar.png') }}"
+                 alt="Ruby Poddar" class="dev-photo">
+            <div class="dev-photo-glow"></div>
+        </div>
+        <div class="dev-info">
+            <span class="badge badge-green">Developer</span>
+            <h2 class="dev-name">Ruby Poddar</h2>
+            <p class="dev-title">BCA Student &mdash; Final Year &nbsp;|&nbsp; Computer Vision Enthusiast</p>
+            <p class="dev-bio">
+                Ruhh Investigation Lab is my final year BCA project — a practical demonstration of
+                applied Computer Vision using Python, Flask, and the YOLOv3 object detection model.
+                The system works completely offline without any external APIs or paid services.
+                Every image you upload is processed locally, detected with a neural network trained
+                on 80 everyday object categories, and returned with a structured investigation report.
+            </p>
+            <div class="dev-tags">
+                <span class="dev-tag">Python</span>
+                <span class="dev-tag">Flask</span>
+                <span class="dev-tag">OpenCV</span>
+                <span class="dev-tag">Machine Learning</span>
+                <span class="dev-tag">Computer Vision</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project info -->
+    <div class="about-cards">
+
+        <div class="about-card">
+            <h3>&#128301; What is This Project?</h3>
+            <p>
+                <strong>Ruhh Investigation Lab</strong> is an image analysis web application.
+                Upload any photograph and the system will:
+            </p>
+            <ul class="bullet-list">
+                <li>Detect objects using YOLOv3 (80 COCO classes)</li>
+                <li>Draw colour-coded bounding boxes with confidence scores</li>
+                <li>Classify the scene as Indoor / Outdoor / Mixed</li>
+                <li>Generate structured investigation-style observations</li>
+            </ul>
+            <div class="meta-grid">
+                <div class="meta-row"><span class="meta-k">Language</span><span class="meta-v">Python 3.11</span></div>
+                <div class="meta-row"><span class="meta-k">Framework</span><span class="meta-v">Flask 3</span></div>
+                <div class="meta-row"><span class="meta-k">CV Library</span><span class="meta-v">OpenCV DNN</span></div>
+                <div class="meta-row"><span class="meta-k">Model</span><span class="meta-v">YOLOv3-tiny</span></div>
+                <div class="meta-row"><span class="meta-k">Dataset</span><span class="meta-v">COCO (80 classes)</span></div>
+                <div class="meta-row"><span class="meta-k">API Keys</span><span class="meta-v accent">None required</span></div>
+            </div>
+        </div>
+
+        <div class="about-card">
+            <h3>&#129504; How Does Computer Vision Work?</h3>
+            <p>
+                Computer Vision teaches machines to interpret images the way humans do.
+                This project uses <strong>YOLOv3</strong> (You Only Look Once), a
+                convolutional neural network that divides an image into a grid and predicts
+                bounding boxes and class probabilities in a single forward pass.
+            </p>
+            <div class="cv-steps">
+                <div class="cv-step">
+                    <div class="cv-step-num">1</div>
+                    <div>
+                        <strong>Image Input</strong> — User uploads PNG/JPG/etc.
+                    </div>
+                </div>
+                <div class="cv-step">
+                    <div class="cv-step-num">2</div>
+                    <div>
+                        <strong>Pre-processing</strong> — Resized to 416×416, normalised to [0,1]
+                    </div>
+                </div>
+                <div class="cv-step">
+                    <div class="cv-step-num">3</div>
+                    <div>
+                        <strong>YOLO Forward Pass</strong> — Network predicts boxes &amp; class scores
+                    </div>
+                </div>
+                <div class="cv-step">
+                    <div class="cv-step-num">4</div>
+                    <div>
+                        <strong>NMS Filtering</strong> — Non-Maximum Suppression removes duplicates
+                    </div>
+                </div>
+                <div class="cv-step">
+                    <div class="cv-step-num">5</div>
+                    <div>
+                        <strong>Report Generation</strong> — Scene classified, observations written
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="cta-strip">
+        <p>Ready to see it in action?</p>
+        <a href="{{ url_for('upload') }}" class="btn btn-primary btn-lg">&#128269;&nbsp; Try It Now</a>
+    </div>
+
+</section>
+
+<footer class="footer">
+    <p>&#169; 2024 &nbsp;<strong>Ruhh Investigation Lab</strong> &nbsp;&mdash;&nbsp; Developed by <span class="accent">Ruby Poddar</span> &nbsp;&mdash;&nbsp; BCA Final Year Project</p>
+</footer>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
