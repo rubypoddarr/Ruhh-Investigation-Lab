@@ -3,30 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Image — Ruhh Investigation Lab</title>
+    <title>Analyze Image — Ruhh Investigation Lab</title>
+
+    <!-- SEO -->
+    <meta name="description"
+        content="Upload any image to Ruhh Investigation Lab and detect real-world objects using AI-powered computer vision with YOLO and OpenCV.">
+    <meta name="keywords"
+        content="AI Image Detection, Computer Vision, YOLO Object Detection, OpenCV Project, Flask AI App, BCA Final Year Project">
+    <meta name="author" content="Ruby Poddar">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
 <nav class="navbar">
     <div class="nav-inner">
+
         <a href="{{ url_for('index') }}" class="nav-brand">
             <span class="brand-icon">&#128269;</span>
             Ruhh<span class="accent">Lab</span>
         </a>
+
         <ul class="nav-links">
             <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('upload') }}" class="active">Analyze</a></li>
             <li><a href="{{ url_for('about') }}">About</a></li>
         </ul>
+
     </div>
 </nav>
 
 <section class="page-wrap">
+
     <div class="page-head">
-        <span class="badge">Image Analysis</span>
-        <h1>Upload for <span class="accent">Analysis</span></h1>
-        <p>Submit any image. YOLOv3 will detect every object and produce a full investigation report automatically.</p>
+
+        <span class="badge">
+            &#129504; AI Image Detection System
+        </span>
+
+        <h1>
+            Upload Image for <span class="accent">Object Detection</span>
+        </h1>
+
+        <p>
+            Upload any real-world image and the system will automatically
+            identify visible objects, generate confidence-based predictions,
+            draw bounding boxes, and analyze the visual scene using
+            YOLO-powered Computer Vision.
+        </p>
+
     </div>
 
     <div class="upload-box">
@@ -37,45 +62,144 @@
         </div>
         {% endif %}
 
-        <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+        <form id="uploadForm"
+              action="{{ url_for('upload') }}"
+              method="POST"
+              enctype="multipart/form-data">
 
             <div class="dropzone" id="dropZone">
+
                 <div class="dz-idle" id="dzIdle">
-                    <div class="dz-upload-icon">&#128228;</div>
-                    <p class="dz-title">Drag &amp; drop your image here</p>
-                    <p class="dz-sub">or <span class="accent">click to browse</span></p>
-                    <p class="dz-formats">PNG &nbsp;·&nbsp; JPG &nbsp;·&nbsp; JPEG &nbsp;·&nbsp; BMP &nbsp;·&nbsp; GIF &nbsp;&mdash;&nbsp; Max 16 MB</p>
+
+                    <div class="dz-upload-icon">
+                        &#128228;
+                    </div>
+
+                    <p class="dz-title">
+                        Drag &amp; Drop Your Image Here
+                    </p>
+
+                    <p class="dz-sub">
+                        or <span class="accent">click to browse files</span>
+                    </p>
+
+                    <p class="dz-formats">
+                        PNG &nbsp;·&nbsp;
+                        JPG &nbsp;·&nbsp;
+                        JPEG &nbsp;·&nbsp;
+                        BMP &nbsp;·&nbsp;
+                        WEBP
+                        &nbsp;&mdash;&nbsp;
+                        Max Size 16 MB
+                    </p>
+
                 </div>
+
                 <div class="dz-preview" id="dzPreview">
-                    <img id="previewImg" src="#" alt="Preview">
-                    <span id="previewName" class="dz-fname"></span>
+
+                    <img id="previewImg"
+                         src="#"
+                         alt="Image Preview">
+
+                    <span id="previewName"
+                          class="dz-fname">
+                    </span>
+
                 </div>
-                <input type="file" name="image" id="imageInput" accept="image/*" required>
+
+                <input type="file"
+                       name="image"
+                       id="imageInput"
+                       accept="image/*"
+                       required>
+
             </div>
 
             <div class="upload-actions">
-                <button type="submit" class="btn btn-primary btn-lg" id="analyzeBtn">
-                    <span id="btnLabel">&#128269;&nbsp; Run Analysis</span>
-                    <span id="btnSpinner" style="display:none">&#9203;&nbsp; Analyzing…</span>
+
+                <button type="submit"
+                        class="btn btn-primary btn-lg"
+                        id="analyzeBtn">
+
+                    <span id="btnLabel">
+                        &#128269;&nbsp; Analyze Image
+                    </span>
+
+                    <span id="btnSpinner" style="display:none">
+                        &#9203;&nbsp; Processing Detection...
+                    </span>
+
                 </button>
-                <a href="{{ url_for('index') }}" class="btn btn-outline">Cancel</a>
+
+                <a href="{{ url_for('index') }}"
+                   class="btn btn-outline">
+                    Back to Home
+                </a>
+
             </div>
+
         </form>
 
+        <!-- System Information -->
         <div class="note-box">
-            <span class="note-icon">&#8505;</span>
-            <span>
-                Detection runs automatically on upload. If no bounding boxes appear, run
-                <code>python download_weights.py</code> inside the project folder to fetch the model weights.
+
+            <span class="note-icon">
+                &#8505;
             </span>
+
+            <span>
+                The uploaded image is processed locally using
+                <strong>YOLO</strong>, <strong>OpenCV</strong>,
+                and <strong>Python Flask</strong>.
+                The system detects multiple objects from real-world scenes
+                and generates AI-powered visual observations automatically.
+            </span>
+
         </div>
+
+        <!-- Extra mini info strip -->
+        <div class="meta-grid" style="margin-top:25px;">
+
+            <div class="meta-row">
+                <span class="meta-k">Detection Model</span>
+                <span class="meta-v">YOLOv3 / YOLOv3-tiny</span>
+            </div>
+
+            <div class="meta-row">
+                <span class="meta-k">Vision Library</span>
+                <span class="meta-v">OpenCV DNN</span>
+            </div>
+
+            <div class="meta-row">
+                <span class="meta-k">Processing</span>
+                <span class="meta-v accent">Fully Offline</span>
+            </div>
+
+            <div class="meta-row">
+                <span class="meta-k">Detected Objects</span>
+                <span class="meta-v">80+ COCO Classes</span>
+            </div>
+
+        </div>
+
     </div>
+
 </section>
 
 <footer class="footer">
-    <p>&#169; 2024 &nbsp;<strong>Ruhh Investigation Lab</strong> &nbsp;&mdash;&nbsp; Developed by <span class="accent">Ruby Poddar</span></p>
+
+    <p>
+        &#169; 2026
+        &nbsp;<strong>Ruhh Investigation Lab</strong>
+        &nbsp;&mdash;&nbsp;
+        Developed by <span class="accent">Ruby Poddar</span>
+        &nbsp;&mdash;&nbsp;
+        AI Computer Vision Project
+    </p>
+
 </footer>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
 </body>
 </html>

@@ -3,153 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ruhh Investigation Lab</title>
+
+    <!-- SEO -->
+    <title>Ruhh Investigation Lab | AI Computer Vision & Object Detection System</title>
+
+    <meta name="description"
+        content="Ruhh Investigation Lab is an AI-powered computer vision system that detects and identifies objects from uploaded images using YOLO, OpenCV, and Flask.">
+
+    <meta name="keywords"
+        content="Computer Vision, YOLO, OpenCV, Flask, AI Detection, Object Identification, Object Detection, Python Project, BCA Final Year Project">
+
+    <meta name="author" content="Ruby Poddar">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
 
 <nav class="navbar">
+
     <div class="nav-inner">
+
         <a href="{{ url_for('index') }}" class="nav-brand">
             <span class="brand-icon">&#128269;</span>
             Ruhh<span class="accent">Lab</span>
         </a>
+
         <ul class="nav-links">
             <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
             <li><a href="{{ url_for('upload') }}">Analyze</a></li>
             <li><a href="{{ url_for('about') }}">About</a></li>
         </ul>
+
     </div>
+
 </nav>
 
-<!-- Hero -->
+<!-- Hero Section -->
+
 <section class="hero">
+
     <div class="hero-left">
-        <span class="hero-badge">&#127358; BCA Final Year Project</span>
-        <h1>Ruhh <span class="accent">Investigation</span> Lab</h1>
+
+        <span class="hero-badge">
+            &#127891; BCA Final Year AI Project
+        </span>
+
+        <h1>
+            Ruhh <span class="accent">Investigation</span> Lab
+        </h1>
+
         <p class="hero-desc">
-            Upload any image and let the system detect objects, classify the scene,
-            and generate a structured investigation report — powered by
-            <strong>YOLOv3</strong> and <strong>OpenCV</strong>, no API keys needed.
+            Ruhh Investigation Lab is an AI-powered computer vision platform
+            developed using <strong>Python</strong>, <strong>Flask</strong>,
+            <strong>OpenCV</strong>, and <strong>YOLO</strong>.
+            Users can upload any image and the system automatically detects,
+            identifies, and labels objects present inside the image with
+            intelligent visual analysis and real-time predictions.
         </p>
+
         <div class="hero-cta">
-            <a href="{{ url_for('upload') }}" class="btn btn-primary">&#128269; Start Analysis</a>
-            <a href="{{ url_for('about') }}" class="btn btn-outline">About the Project</a>
+
+            <a href="{{ url_for('upload') }}" class="btn btn-primary">
+                &#128269; Start Analysis
+            </a>
+
+            <a href="{{ url_for('about') }}" class="btn btn-outline">
+                About the Project
+            </a>
+
         </div>
+
         <div class="stat-row">
-            <div class="stat"><span class="stat-num">80+</span><span class="stat-label">Object Classes</span></div>
+
+            <div class="stat">
+                <span class="stat-num">80+</span>
+                <span class="stat-label">Object Classes</span>
+            </div>
+
             <div class="stat-divider"></div>
-            <div class="stat"><span class="stat-num">YOLOv3</span><span class="stat-label">Detection Engine</span></div>
+
+            <div class="stat">
+                <span class="stat-num">YOLO</span>
+                <span class="stat-label">AI Detection Model</span>
+            </div>
+
             <div class="stat-divider"></div>
-            <div class="stat"><span class="stat-num">0</span><span class="stat-label">API Keys Needed</span></div>
+
+            <div class="stat">
+                <span class="stat-num">100%</span>
+                <span class="stat-label">Local Processing</span>
+            </div>
+
         </div>
+
     </div>
+
     <div class="hero-right">
+
         <div class="scanbox">
+
             <div class="scanbox-corners">
-                <span class="sc tl"></span><span class="sc tr"></span>
-                <span class="sc bl"></span><span class="sc br"></span>
+                <span class="sc tl"></span>
+                <span class="sc tr"></span>
+                <span class="sc bl"></span>
+                <span class="sc br"></span>
             </div>
+
             <div class="scanbox-body">
+
                 <div class="scanbox-icon">&#128247;</div>
-                <p>Drop an image here</p>
-                <p class="scanbox-sub">PNG · JPG · JPEG · BMP</p>
-                <a href="{{ url_for('upload') }}" class="btn btn-sm">Upload Now</a>
+
+                <p>Upload Any Image</p>
+
+                <p class="scanbox-sub">
+                    PNG · JPG · JPEG · BMP Supported
+                </p>
+
+                <a href="{{ url_for('upload') }}" class="btn btn-sm">
+                    Upload Now
+                </a>
+
             </div>
+
             <div class="scanline"></div>
+
         </div>
+
     </div>
+
 </section>
 
-<!-- How it works -->
+<!-- How It Works -->
+
 <section class="steps-section">
-    <h2 class="section-title">How It Works</h2>
+
+    <h2 class="section-title">How The System Works</h2>
+
     <div class="steps-row">
+
         <div class="step-card">
+
             <div class="step-num">01</div>
+
             <div class="step-icon">&#128228;</div>
+
             <h3>Upload Image</h3>
-            <p>Drag and drop or select any photograph from your device.</p>
+
+            <p>
+                Upload any image containing objects. The system accepts common formats like PNG, JPG, JPEG, and BMP.
+            </p>
+
         </div>
+
         <div class="step-arrow">&#8594;</div>
+
         <div class="step-card">
+
             <div class="step-num">02</div>
+
             <div class="step-icon">&#129504;</div>
-            <h3>YOLO Detection</h3>
-            <p>YOLOv3 scans the image and identifies objects with bounding boxes.</p>
+
+            <h3>AI Detection</h3>
+
+            <p>
+                The YOLO model scans the image and detects
+                visible objects using computer vision.
+            </p>
+
         </div>
+
         <div class="step-arrow">&#8594;</div>
+
         <div class="step-card">
+
             <div class="step-num">03</div>
-            <div class="step-icon">&#128301;</div>
-            <h3>Scene Analysis</h3>
-            <p>The system classifies the environment and analyses the context.</p>
+
+            <div class="step-icon">&#128065;</div>
+
+            <h3>Object Identification</h3>
+
+            <p>
+                Detected objects are labelled with names,
+                confidence scores, and visual bounding boxes.
+            </p>
+
         </div>
+
         <div class="step-arrow">&#8594;</div>
+
         <div class="step-card">
+
             <div class="step-num">04</div>
-            <div class="step-icon">&#128196;</div>
-            <h3>Report</h3>
-            <p>A full investigation-style report is generated and displayed.</p>
+
+            <div class="step-icon">&#128202;</div>
+
+            <h3>Visual Analysis</h3>
+
+            <p>
+                The final processed image is generated with
+                intelligent AI-based visual understanding.
+            </p>
+
         </div>
+
     </div>
+
 </section>
 
 <!-- Features -->
+
 <section class="features-section">
+
     <h2 class="section-title">System Capabilities</h2>
+
     <div class="features-grid">
+
         <div class="feat-card">
+
             <div class="feat-icon">&#127919;</div>
+
             <h3>Object Detection</h3>
-            <p>Detects 80+ COCO classes — people, vehicles, animals, everyday objects and more.</p>
+
+            <p>
+                Detects real-world objects using the
+                YOLO object detection framework.
+            </p>
+
         </div>
+
         <div class="feat-card">
-            <div class="feat-icon">&#128247;</div>
+
+            <div class="feat-icon">&#128444;</div>
+
             <h3>Bounding Boxes</h3>
-            <p>Every detected object is highlighted with a coloured bounding box and confidence score.</p>
+
+            <p>
+                Automatically highlights detected objects
+                using AI-generated bounding boxes.
+            </p>
+
         </div>
+
         <div class="feat-card">
-            <div class="feat-icon">&#128205;</div>
-            <h3>Scene Classification</h3>
-            <p>Automatically classifies scenes as indoor, outdoor, or mixed environments.</p>
+
+            <div class="feat-icon">&#128200;</div>
+
+            <h3>Confidence Scores</h3>
+
+            <p>
+                Displays prediction confidence levels
+                for every detected object in the image.
+            </p>
+
         </div>
+
         <div class="feat-card">
-            <div class="feat-icon">&#128196;</div>
-            <h3>Investigation Report</h3>
-            <p>Structured observations describing what is happening inside the image.</p>
+
+            <div class="feat-icon">&#129302;</div>
+
+            <h3>AI Vision System</h3>
+
+            <p>
+                Combines OpenCV and YOLO to perform
+                intelligent image understanding.
+            </p>
+
         </div>
+
         <div class="feat-card">
+
             <div class="feat-icon">&#128274;</div>
-            <h3>Fully Local</h3>
-            <p>No API keys, no cloud services. Everything runs on your machine.</p>
+
+            <h3>Fully Offline</h3>
+
+            <p>
+                No APIs, cloud servers, or external services.
+                Everything runs locally on the system.
+            </p>
+
         </div>
+
         <div class="feat-card">
+
             <div class="feat-icon">&#9889;</div>
+
             <h3>Fast Processing</h3>
-            <p>YOLOv3-tiny delivers rapid detections even on CPU-only environments.</p>
+
+            <p>
+                Optimized AI detection provides rapid
+                results even on CPU-based systems.
+            </p>
+
         </div>
+
     </div>
+
 </section>
 
-<!-- Tech badges -->
+<!-- Technologies -->
+
 <section class="tech-section">
-    <h2 class="section-title">Built With</h2>
+
+    <h2 class="section-title">Technologies Used</h2>
+
     <div class="tech-badges">
-        <span class="tech-badge">Python 3.11</span>
-        <span class="tech-badge">Flask 3</span>
+
+        <span class="tech-badge">Python</span>
+        <span class="tech-badge">Flask</span>
         <span class="tech-badge">OpenCV</span>
-        <span class="tech-badge">YOLOv3</span>
+        <span class="tech-badge">YOLO</span>
         <span class="tech-badge">NumPy</span>
-        <span class="tech-badge">COCO Dataset</span>
-        <span class="tech-badge">HTML / CSS / JS</span>
+        <span class="tech-badge">Computer Vision</span>
+        <span class="tech-badge">HTML / CSS / JavaScript</span>
+
     </div>
+
 </section>
+
+<!-- Footer -->
 
 <footer class="footer">
-    <p>&#169; 2026 &nbsp;<strong>Ruhh Investigation Lab</strong> &nbsp;&mdash;&nbsp; Developed by <span class="accent">Ruby Poddar</span> &nbsp;&mdash;&nbsp; BCA Final Year Project Amity University</p>
+
+    <p>
+        &#169; 2026
+        <strong>Ruhh Investigation Lab</strong>
+        &nbsp;&mdash;&nbsp;
+        Developed by <span class="accent">Ruby Poddar</span>
+        &nbsp;&mdash;&nbsp;
+        BCA Final Year Project | Amity University
+    </p>
+
 </footer>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
 </body>
 </html>

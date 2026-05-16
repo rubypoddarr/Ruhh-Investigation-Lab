@@ -14,6 +14,7 @@
             <span class="brand-icon">&#128269;</span>
             Ruhh<span class="accent">Lab</span>
         </a>
+
         <ul class="nav-links">
             <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('upload') }}">Analyze</a></li>
@@ -23,120 +24,255 @@
 </nav>
 
 <section class="page-wrap">
+
     <div class="page-head">
         <span class="badge">About</span>
         <h1>Meet the <span class="accent">Developer</span></h1>
-        <p>BCA Final Year Computer Vision project — built by Ruby Poddar.</p>
+        <p>BCA Final Year Computer Vision project — built entirely with open-source tools.</p>
     </div>
 
-    <!-- Developer hero card -->
+    <!-- Developer Hero Card -->
+
     <div class="dev-hero">
+
         <div class="dev-photo-wrap">
+
             <img src="{{ url_for('static', filename='ruby_poddar.png') }}"
-                 alt="Ruby Poddar" class="dev-photo">
+                 alt="Ruby Poddar"
+                 class="dev-photo">
+
             <div class="dev-photo-glow"></div>
+
         </div>
+
         <div class="dev-info">
-            <span class="badge badge-green">Developer</span>
-            <h2 class="dev-name">Ruby Poddar</h2>
-            <p class="dev-title">BCA Student &mdash; Final Year &nbsp;|&nbsp; Computer Vision Enthusiast</p>
-            <p class="dev-bio">
-                Ruhh Investigation Lab is my final year BCA project — a practical demonstration of
-                applied Computer Vision using Python, Flask, and the YOLOv3 object detection model.
-                The system works completely offline without any external APIs or paid services.
-                Every image you upload is processed locally, detected with a neural network trained
-                on 80 everyday object categories, and returned with a structured investigation report.
+
+            <span class="badge badge-green">
+                Developer
+            </span>
+
+            <h2 class="dev-name">
+                Ruby Poddar
+            </h2>
+
+            <p class="dev-title">
+                BCA Final Year Student
+                &nbsp;|&nbsp;
+                AI & Computer Vision Enthusiast
             </p>
+
+            <p class="dev-bio">
+                Ruhh Investigation Lab is a Computer Vision based AI project
+                developed as a BCA Final Year Project using
+                <strong>Python</strong>,
+                <strong>Flask</strong>,
+                <strong>OpenCV</strong>,
+                and <strong>YOLO</strong>.
+
+                The system allows users to upload any image and automatically
+                identifies objects present inside the image using Artificial Intelligence.
+                Detected objects are highlighted with labels, confidence scores,
+                and bounding boxes for visual understanding.
+
+                The complete system works locally without relying on external APIs,
+                making the project lightweight, fast, and fully open-source.
+            </p>
+
             <div class="dev-tags">
+
                 <span class="dev-tag">Python</span>
                 <span class="dev-tag">Flask</span>
                 <span class="dev-tag">OpenCV</span>
-                <span class="dev-tag">Machine Learning</span>
+                <span class="dev-tag">YOLO</span>
                 <span class="dev-tag">Computer Vision</span>
+                <span class="dev-tag">Artificial Intelligence</span>
+
             </div>
+
         </div>
+
     </div>
 
-    <!-- Project info -->
+    <!-- Project Information -->
+
     <div class="about-cards">
 
         <div class="about-card">
-            <h3>&#128301; What is This Project?</h3>
+
+            <h3>
+                &#128269; What Does This Project Do?
+            </h3>
+
             <p>
-                <strong>Ruhh Investigation Lab</strong> is an image analysis web application.
-                Upload any photograph and the system will:
+                <strong>Ruhh Investigation Lab</strong>
+                is an AI-based image analysis system.
+                Users can upload any image and the platform automatically:
             </p>
+
             <ul class="bullet-list">
-                <li>Detect objects using YOLOv3 (80 COCO classes)</li>
-                <li>Draw colour-coded bounding boxes with confidence scores</li>
-                <li>Classify the scene as Indoor / Outdoor / Mixed</li>
-                <li>Generate structured investigation-style observations</li>
+
+                <li>Detects objects using YOLO object detection</li>
+
+                <li>Identifies people, vehicles, animals, and everyday objects</li>
+
+                <li>Creates intelligent bounding boxes around detected items</li>
+
+                <li>Displays confidence scores for every prediction</li>
+
+                <li>Processes images fully offline without cloud APIs</li>
+
+                <li>Generates AI-powered visual understanding of the scene</li>
+
             </ul>
+
             <div class="meta-grid">
-                <div class="meta-row"><span class="meta-k">Language</span><span class="meta-v">Python 3.11</span></div>
-                <div class="meta-row"><span class="meta-k">Framework</span><span class="meta-v">Flask 3</span></div>
-                <div class="meta-row"><span class="meta-k">CV Library</span><span class="meta-v">OpenCV DNN</span></div>
-                <div class="meta-row"><span class="meta-k">Model</span><span class="meta-v">YOLOv3-tiny</span></div>
-                <div class="meta-row"><span class="meta-k">Dataset</span><span class="meta-v">COCO (80 classes)</span></div>
-                <div class="meta-row"><span class="meta-k">API Keys</span><span class="meta-v accent">None required</span></div>
+
+                <div class="meta-row">
+                    <span class="meta-k">Programming Language</span>
+                    <span class="meta-v">Python 3</span>
+                </div>
+
+                <div class="meta-row">
+                    <span class="meta-k">Backend Framework</span>
+                    <span class="meta-v">Flask</span>
+                </div>
+
+                <div class="meta-row">
+                    <span class="meta-k">Computer Vision Library</span>
+                    <span class="meta-v">OpenCV</span>
+                </div>
+
+                <div class="meta-row">
+                    <span class="meta-k">Detection Model</span>
+                    <span class="meta-v">YOLO</span>
+                </div>
+
+                <div class="meta-row">
+                    <span class="meta-k">Object Dataset</span>
+                    <span class="meta-v">COCO Dataset</span>
+                </div>
+
+                <div class="meta-row">
+                    <span class="meta-k">Cloud APIs</span>
+                    <span class="meta-v accent">Not Required</span>
+                </div>
+
             </div>
+
         </div>
 
         <div class="about-card">
-            <h3>&#129504; How Does Computer Vision Work?</h3>
+
+            <h3>
+                &#129504; How Does The AI System Work?
+            </h3>
+
             <p>
-                Computer Vision teaches machines to interpret images the way humans do.
-                This project uses <strong>YOLOv3</strong> (You Only Look Once), a
-                convolutional neural network that divides an image into a grid and predicts
-                bounding boxes and class probabilities in a single forward pass.
+                This project uses <strong>YOLO</strong>
+                (You Only Look Once), one of the most powerful
+                real-time object detection algorithms in Computer Vision.
+
+                The model scans uploaded images and predicts objects
+                using deep learning and neural network-based analysis.
             </p>
+
             <div class="cv-steps">
+
                 <div class="cv-step">
+
                     <div class="cv-step-num">1</div>
+
                     <div>
-                        <strong>Image Input</strong> — User uploads PNG/JPG/etc.
+                        <strong>Image Upload</strong>
+                        — User uploads any image file.
                     </div>
+
                 </div>
+
                 <div class="cv-step">
+
                     <div class="cv-step-num">2</div>
+
                     <div>
-                        <strong>Pre-processing</strong> — Resized to 416×416, normalised to [0,1]
+                        <strong>Image Processing</strong>
+                        — OpenCV prepares the image for AI analysis.
                     </div>
+
                 </div>
+
                 <div class="cv-step">
+
                     <div class="cv-step-num">3</div>
+
                     <div>
-                        <strong>YOLO Forward Pass</strong> — Network predicts boxes &amp; class scores
+                        <strong>YOLO Detection</strong>
+                        — AI identifies visible objects inside the image.
                     </div>
+
                 </div>
+
                 <div class="cv-step">
+
                     <div class="cv-step-num">4</div>
+
                     <div>
-                        <strong>NMS Filtering</strong> — Non-Maximum Suppression removes duplicates
+                        <strong>Bounding Boxes</strong>
+                        — Detected objects are highlighted visually.
                     </div>
+
                 </div>
+
                 <div class="cv-step">
+
                     <div class="cv-step-num">5</div>
+
                     <div>
-                        <strong>Report Generation</strong> — Scene classified, observations written
+                        <strong>Prediction Results</strong>
+                        — Final image with AI detections is generated.
                     </div>
+
                 </div>
+
             </div>
+
         </div>
 
     </div>
 
+    <!-- Extra Highlight Strip -->
+
     <div class="cta-strip">
-        <p>Ready to see it in action?</p>
-        <a href="{{ url_for('upload') }}" class="btn btn-primary btn-lg">&#128269;&nbsp; Try It Now</a>
+
+        <p>
+            Upload an image and watch AI identify objects in real time.
+        </p>
+
+        <a href="{{ url_for('upload') }}"
+           class="btn btn-primary btn-lg">
+
+           &#128247;&nbsp; Start Detection
+
+        </a>
+
     </div>
 
 </section>
 
 <footer class="footer">
-    <p>&#169; 2024 &nbsp;<strong>Ruhh Investigation Lab</strong> &nbsp;&mdash;&nbsp; Developed by <span class="accent">Ruby Poddar</span> &nbsp;&mdash;&nbsp; BCA Final Year Project</p>
+
+    <p>
+        &#169; 2026
+        &nbsp;
+        <strong>Ruhh Investigation Lab</strong>
+        &nbsp;&mdash;&nbsp;
+        Developed by <span class="accent">Ruby Poddar</span>
+        &nbsp;&mdash;&nbsp;
+        BCA Final Year Project | Amity University
+    </p>
+
 </footer>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
 </body>
 </html>
