@@ -13,25 +13,79 @@ COLORS = [
     (255, 255, 0),
 ]
 
-# Load YOLOv8 model
-model = YOLO("yolov8n.pt")
+# -------------------------------
+# BASE DIRECTORY
+# -------------------------------
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+MODEL_PATH = os.path.join(BASE_DIR, "..", "yolov8n.pt")
+
+# -------------------------------
+# LOAD MODEL ONLY ONCE
+# -------------------------------
+
+model = YOLO(MODEL_PATH)
+
+# FORCE CPU MODE FOR RENDER
+model.to("cpu")
 
 
 def detect_objects(image_path, result_folder):
 
+    # Ensure result folder exists
+    os.makedirs(result_folder, exist_ok=True)
+
+    # Read image
     image = cv2.imread(image_path)
 
     if image is None:
         return '', []
 
-    # Run detection
-    results = model(image, imgsz=640)
+    # ---------------------------------
+    # RESIZE IMAGE
+    # Helps avoid Render RAM crashes
+    # ---------------------------------
+
+    height, width = image.shape[:2]
+
+    max_size = 640
+
+    if width > max_size or height > max_size:
+
+        scale = min(max_size / width, max_size / height)
+
+        new_width = int(width * scale)
+        new_height = int(height * scale)
+
+        image = cv2.resize(
+            image,
+            (new_width, new_height)
+        )
+
+        # overwrite optimized image
+        cv2.imwrite(image_path, image)
+
+    # ---------------------------------
+    # RUN YOLO DETECTION
+    # ---------------------------------
+
+    results = model.predict(
+        source=image,
+        imgsz=640,
+        conf=CONFIDENCE_THRESHOLD,
+        verbose=False,
+        device="cpu"
+    )
 
     detected_labels = []
 
     for result in results:
 
         boxes = result.boxes
+
+        if boxes is None:
+            continue
 
         for box in boxes:
 
@@ -46,11 +100,14 @@ def detect_objects(image_path, result_folder):
 
             detected_labels.append(label)
 
-            x1, y1, x2, y2 = map(int, box.xyxy[0])
+            x1, y1, x2, y2 = map(
+                int,
+                box.xyxy[0]
+            )
 
             color = COLORS[class_id % len(COLORS)]
 
-            # Draw box
+            # Draw bounding box
             cv2.rectangle(
                 image,
                 (x1, y1),
@@ -59,7 +116,7 @@ def detect_objects(image_path, result_folder):
                 2
             )
 
-            # Label
+            # Label text
             text = f"{label} {confidence:.0%}"
 
             (tw, th), _ = cv2.getTextSize(
@@ -69,6 +126,7 @@ def detect_objects(image_path, result_folder):
                 2
             )
 
+            # Label background
             cv2.rectangle(
                 image,
                 (x1, y1 - th - 10),
@@ -77,6 +135,7 @@ def detect_objects(image_path, result_folder):
                 -1
             )
 
+            # Label text draw
             cv2.putText(
                 image,
                 text,
@@ -94,12 +153,15 @@ def _save_result(image, result_folder):
 
     filename = f"result_{uuid.uuid4().hex}.jpg"
 
-    path = os.path.join(result_folder, filename)
+    path = os.path.join(
+        result_folder,
+        filename
+    )
 
     cv2.imwrite(
         path,
         image,
-        [int(cv2.IMWRITE_JPEG_QUALITY), 95]
+        [int(cv2.IMWRITE_JPEG_QUALITY), 90]
     )
 
     return filename
