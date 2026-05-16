@@ -3,6 +3,10 @@ import os
 import uuid
 from ultralytics import YOLO
 
+# -------------------------------
+# CONFIG
+# -------------------------------
+
 CONFIDENCE_THRESHOLD = 0.35
 
 COLORS = [
@@ -13,81 +17,64 @@ COLORS = [
     (255, 255, 0),
 ]
 
-# -------------------------------
-# BASE DIRECTORY
-# -------------------------------
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 MODEL_PATH = os.path.join(BASE_DIR, "..", "yolov8n.pt")
 
 # -------------------------------
-# LOAD MODEL ONLY ONCE
+# LOAD MODEL (SAFE FOR RENDER)
 # -------------------------------
 
 model = YOLO(MODEL_PATH)
 
-# FORCE CPU MODE FOR RENDER
+# force CPU + low thread usage (VERY IMPORTANT for Render)
 model.to("cpu")
 
 
 def detect_objects(image_path, result_folder):
 
-    # Ensure result folder exists
     os.makedirs(result_folder, exist_ok=True)
 
-    # Read image
     image = cv2.imread(image_path)
 
     if image is None:
-        return '', []
+        return "", []
 
-    # ---------------------------------
-    # RESIZE IMAGE
-    # Helps avoid Render RAM crashes
-    # ---------------------------------
+    # -------------------------------
+    # SAFE RESIZE (NO FILE OVERWRITE)
+    # -------------------------------
 
-    height, width = image.shape[:2]
-
+    h, w = image.shape[:2]
     max_size = 640
 
-    if width > max_size or height > max_size:
+    if max(h, w) > max_size:
 
-        scale = min(max_size / width, max_size / height)
-
-        new_width = int(width * scale)
-        new_height = int(height * scale)
+        scale = max_size / max(h, w)
 
         image = cv2.resize(
             image,
-            (new_width, new_height)
+            (int(w * scale), int(h * scale))
         )
 
-        # overwrite optimized image
-        cv2.imwrite(image_path, image)
-
-    # ---------------------------------
-    # RUN YOLO DETECTION
-    # ---------------------------------
+    # -------------------------------
+    # YOLO INFERENCE (OPTIMIZED)
+    # -------------------------------
 
     results = model.predict(
         source=image,
-        imgsz=640,
+        imgsz=320,              # 🔥 reduced for Render stability
         conf=CONFIDENCE_THRESHOLD,
-        verbose=False,
-        device="cpu"
+        device="cpu",
+        verbose=False
     )
 
     detected_labels = []
 
     for result in results:
 
-        boxes = result.boxes
-
-        if boxes is None:
+        if result.boxes is None:
             continue
 
-        for box in boxes:
+        for box in result.boxes:
 
             confidence = float(box.conf[0])
 
@@ -95,28 +82,20 @@ def detect_objects(image_path, result_folder):
                 continue
 
             class_id = int(box.cls[0])
-
             label = model.names[class_id]
 
             detected_labels.append(label)
 
-            x1, y1, x2, y2 = map(
-                int,
-                box.xyxy[0]
-            )
+            x1, y1, x2, y2 = map(int, box.xyxy[0])
 
             color = COLORS[class_id % len(COLORS)]
 
-            # Draw bounding box
-            cv2.rectangle(
-                image,
-                (x1, y1),
-                (x2, y2),
-                color,
-                2
-            )
+            # -----------------------
+            # DRAW BOX
+            # -----------------------
 
-            # Label text
+            cv2.rectangle(image, (x1, y1), (x2, y2), color, 2)
+
             text = f"{label} {confidence:.0%}"
 
             (tw, th), _ = cv2.getTextSize(
@@ -126,7 +105,6 @@ def detect_objects(image_path, result_folder):
                 2
             )
 
-            # Label background
             cv2.rectangle(
                 image,
                 (x1, y1 - th - 10),
@@ -135,7 +113,6 @@ def detect_objects(image_path, result_folder):
                 -1
             )
 
-            # Label text draw
             cv2.putText(
                 image,
                 text,
@@ -152,11 +129,7 @@ def detect_objects(image_path, result_folder):
 def _save_result(image, result_folder):
 
     filename = f"result_{uuid.uuid4().hex}.jpg"
-
-    path = os.path.join(
-        result_folder,
-        filename
-    )
+    path = os.path.join(result_folder, filename)
 
     cv2.imwrite(
         path,
