@@ -1,6 +1,7 @@
 import cv2
 import os
 import uuid
+import threading
 from ultralytics import YOLO
 
 # -------------------------------
@@ -21,14 +22,29 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "..", "yolov8n.pt")
 
 # -------------------------------
-# LOAD MODEL (SAFE FOR RENDER)
+# GLOBAL MODEL STATE (SAFE LAZY LOADING)
 # -------------------------------
 
-model = YOLO(MODEL_PATH)
+model = None
+model_lock = threading.Lock()
 
-# force CPU + low thread usage (VERY IMPORTANT for Render)
-model.to("cpu")
+def get_model():
+    """
+    Lazy-load YOLO model only once.
+    Safe for Gunicorn multi-thread environment.
+    """
+    global model
 
+    with model_lock:
+        if model is None:
+            model = YOLO(MODEL_PATH)
+            model.to("cpu")
+    return model
+
+
+# -------------------------------
+# MAIN DETECTION FUNCTION
+# -------------------------------
 
 def detect_objects(image_path, result_folder):
 
@@ -40,34 +56,39 @@ def detect_objects(image_path, result_folder):
         return "", []
 
     # -------------------------------
-    # SAFE RESIZE (NO FILE OVERWRITE)
+    # SAFE RESIZE
     # -------------------------------
 
     h, w = image.shape[:2]
     max_size = 640
 
     if max(h, w) > max_size:
-
         scale = max_size / max(h, w)
-
-        image = cv2.resize(
-            image,
-            (int(w * scale), int(h * scale))
-        )
+        image = cv2.resize(image, (int(w * scale), int(h * scale)))
 
     # -------------------------------
-    # YOLO INFERENCE (OPTIMIZED)
+    # LOAD MODEL SAFELY
     # -------------------------------
 
-    results = model.predict(
+    yolo = get_model()
+
+    # -------------------------------
+    # INFERENCE (CPU SAFE)
+    # -------------------------------
+
+    results = yolo.predict(
         source=image,
-        imgsz=320,              # 🔥 reduced for Render stability
+        imgsz=320,
         conf=CONFIDENCE_THRESHOLD,
         device="cpu",
         verbose=False
     )
 
     detected_labels = []
+
+    # -------------------------------
+    # DRAW RESULTS
+    # -------------------------------
 
     for result in results:
 
@@ -82,7 +103,7 @@ def detect_objects(image_path, result_folder):
                 continue
 
             class_id = int(box.cls[0])
-            label = model.names[class_id]
+            label = yolo.names[class_id]
 
             detected_labels.append(label)
 
@@ -90,10 +111,7 @@ def detect_objects(image_path, result_folder):
 
             color = COLORS[class_id % len(COLORS)]
 
-            # -----------------------
-            # DRAW BOX
-            # -----------------------
-
+            # draw rectangle
             cv2.rectangle(image, (x1, y1), (x2, y2), color, 2)
 
             text = f"{label} {confidence:.0%}"
@@ -125,6 +143,10 @@ def detect_objects(image_path, result_folder):
 
     return _save_result(image, result_folder), detected_labels
 
+
+# -------------------------------
+# SAVE RESULT IMAGE
+# -------------------------------
 
 def _save_result(image, result_folder):
 
